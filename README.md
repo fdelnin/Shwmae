@@ -188,3 +188,7 @@ Shwmae.exe sign --key-name login.windows.net/de60a4fa-d583-4eb0-ab66-ce358af8279
 [+] Success:
 MogfSZKrtYs9kfy0jPrVODpu4/eJfXHvGu+TQJzf9JG9JMug2+rmG7zEBuzUunMVy7jyHSBwv1eQ78yQr/G5y0VfoeKYnW5UbKuO9ZnImTuIFem4RE7RhQ84Pm4BgEQ3W16ebcf5CIHnIOZpOec6nbh7WZBIi2AG8N5fWK9itWA1Uk7j1TAFO7gCfAbrE9O6KiMLe4AAdw2vjR5s9RVqw1MdacWKOBDwGVm+VmHY6kYXSCovyWJ+ESoi75fRfRSgyPcHViNOP77pnUDOeMfl9nsE6C0UEKSCvJ+GGJy3u5uiK5fC1w73TG8s/Y2O6YSJpjnXqC5ZJhrE/vLtJNtGWg==
 ```
+
+## DPAPI
+
+Some EDR's will alert when the DPAPI keys are dumped via reading LSA secrets.  If you have obtained the SYSTEM account DPAPI keys via other means, these can be input via the `--system-dpapi` and `--machine-dpapi` keys respectively using a hex string representing a 16 byte key (32 characters).  

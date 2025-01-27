@@ -65,8 +65,8 @@ namespace DPAPI {
         public MasterKeyProviderLocalMachine() : this(LSADump.GetDPAPIKeys()[0]) {
         }
 
-        public MasterKeyProviderLocalMachine(byte[] systemDPAPIKey)
-            : base(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), $@"Microsoft\Protect\S-1-5-18"), systemDPAPIKey) {
+        public MasterKeyProviderLocalMachine(byte[] machineDPAPIKey)
+            : base(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), $@"Microsoft\Protect\S-1-5-18"), machineDPAPIKey) {
         }
     }
 }

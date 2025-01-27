@@ -228,8 +228,13 @@ namespace Shwmae {
             
             using (var ctx = Utils.Impersonate("SYSTEM")) {
 
-                systemKeyProvider = new MasterKeyProviderSystemUser();
-                machineKeyProvider = new MasterKeyProviderLocalMachine();
+                if (baseOptions.SystemDPAPI == null) {
+                    systemKeyProvider = new MasterKeyProviderSystemUser();
+                    machineKeyProvider = new MasterKeyProviderLocalMachine();
+                } else {
+                    systemKeyProvider = new MasterKeyProviderSystemUser(baseOptions.SystemDPAPI.FromHex());
+                    machineKeyProvider = new MasterKeyProviderLocalMachine(baseOptions.SystemDPAPI.FromHex());
+                }
 
                 var vaultPolicy = new Policy(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), @"config\systemprofile\AppData\Local\Microsoft\Vault\4BF4C442-9B8A-41A0-B380-DD4A704DDB28\Policy.vpol"));
                 var masterKey = systemKeyProvider.GetMasterKey(vaultPolicy.PolicyKey.GuidMasterKey);

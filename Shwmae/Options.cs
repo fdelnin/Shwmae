@@ -9,6 +9,9 @@ namespace Shwmae {
         [Option("system-dpapi", Required = false, HelpText = "Use a specific SYSTEM DPAPI key")]
         public string SystemDPAPI { get; set; }
 
+        [Option("machine-dpapi", Required = false, HelpText = "Use a specific SYSTEM DPAPI key")]
+        public string MachineDPAPI { get; set; }
+
         [Option("pin", Required = false, HelpText = "PIN to use for decrypting PIN protector")]
         public string PIN { get; set; }
 
